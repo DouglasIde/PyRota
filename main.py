@@ -34,24 +34,35 @@ def calcular_distancia_rota(rota):
             distancia += distancia_euclidiana(rota[i], rota[i+1])
         return distancia
 
+def forca_bruta(origem, destino, enderecos):
+    # Variavel com um valor infinito
+    menor_distancia = float('inf')
+    menor_rota = None
+
+    for permutacao in permutations(enderecos):
+        rota = [origem] + enderecos + [destino]
+
+        # Calculando a distancia total da rota
+        distancia_rota = calcular_distancia_rota(rota)
+
+        # Verificando se a rota atual é menor do que a menor_distancia encontrada
+        if distancia_rota < menor_distancia:
+            menor_distancia = distancia_rota
+            menor_rota = rota
+
+        return menor_rota, menor_distancia
 
 if __name__ == "__main__":
     
     # Definição de origem, destino e pontos intermediários
     origem = (0,0)
     destino = (4,4)
-    enderecos = [(2,1), (2,2), (8,3), (5,3)]
-    menor_distancia = float('inf')
-    menor_rota = None
+    enderecos = [(2,2), (2,1), (5,3), (8,3), (10,5), (9,4), (8,7), (6,3), (9,6), (7,5)]
 
-    for permutacao in permutations(enderecos):
-        rota = [origem] + enderecos + [destino]
-        distancia_rota = calcular_distancia_rota(rota)
+    menor_rota, menor_distancia = forca_bruta(origem, destino, enderecos)
 
-        if distancia_rota < menor_distancia:
-            menor_distancia = distancia_rota
-            menor_rota = rota
 
+    # Após ter encontrado a menor rota, verifica se uma rota foi encontrada e desenha-a
     if menor_rota is None:
         print("Nenhuma rota foi encontrada")
     else:
